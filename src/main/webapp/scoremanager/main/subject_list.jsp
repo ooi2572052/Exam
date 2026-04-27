@@ -35,7 +35,6 @@
                                 <tr>
                                     <td>${subject.cd}</td>
                                     <td>${subject.name}</td>
-                                    <%-- 更新・削除などのリンク --%>
                                     <td class="text-center">
                                         <a href="SubjectUpdate.action?cd=${subject.cd}">更新</a>
                                     </td>
@@ -48,8 +47,6 @@
                     </table>
                 </c:when>
                 
-                <%-- 科目が0件（画像の状態）の場合 --%>
-                <c:otherwise>
                     <div class="mx-4">科目情報が存在しませんでした。</div>
                     <%-- 画像のように空のテーブルのヘッダーだけ出したい場合は以下を追加 --%>
                     <table class="table table-hover mt-3">
