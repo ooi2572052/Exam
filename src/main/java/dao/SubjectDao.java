@@ -8,7 +8,6 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-    // ① 1件取得
     public Test get(String studentNo, String subjectCd, String schoolCd) throws Exception {
 
         Test test = null;
@@ -46,7 +45,7 @@ public class TestDao extends Dao {
         return test;
     }
 
-    // ② 保存（INSERT or UPDATE）
+  
     public boolean save(Test test) throws Exception {
 
         Connection connection = getConnection();
@@ -94,7 +93,6 @@ public class TestDao extends Dao {
         return count > 0;
     }
 
-    // ③ 削除
     public boolean delete(Test test) throws Exception {
 
         Connection connection = getConnection();

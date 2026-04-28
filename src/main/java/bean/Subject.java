@@ -8,7 +8,6 @@ public class Subject implements Serializable {
     private String subjectName;   // 科目名
     private String schoolCd;      // 学校コード
 
-    // getter / setter
 
     public String getSubjectCd() {
         return subjectCd;
