@@ -11,61 +11,77 @@ import bean.Test;
  
 public class TestDao extends Dao {
 
-    public List<Test> filter(String studentNo, String schoolCd, String subjectCd, int no) throws Exception {
+	public List<Test> filter(
+	        String entYear,
+	        String classNum,
+	        String subjectCd,
+	        String studentNo,
+	        String schoolCd) throws Exception {
 
-        List<Test> list = new ArrayList<>();
+	    List<Test> list = new ArrayList<>();
+	    Connection con = getConnection();
 
-        Connection con = getConnection();
- 
-        String sql = "SELECT * FROM TEST WHERE STUDENT_NO=? AND SCHOOL_CD=? AND SUBJECT_CD=? AND NO=?";
+	    StringBuilder sql = new StringBuilder();
+	    sql.append("SELECT * FROM TEST WHERE SCHOOL_CD=?");
 
-        try (PreparedStatement st = con.prepareStatement(sql)) {
+	    List<Object> params = new ArrayList<>();
+	    params.add(schoolCd);
 
-            st.setString(1, studentNo);
+	    // 学生番号
+	    if (studentNo != null && !studentNo.isEmpty()) {
+	        sql.append(" AND STUDENT_NO=?");
+	        params.add(studentNo);
+	    }
 
-            st.setString(2, schoolCd);
+	    // 科目
+	    if (subjectCd != null && !subjectCd.isEmpty()) {
+	        sql.append(" AND SUBJECT_CD=?");
+	        params.add(subjectCd);
+	    }
 
-            st.setString(3, subjectCd);
+	    // クラス
+	    if (classNum != null && !classNum.isEmpty()) {
+	        sql.append(" AND CLASS_NUM=?");
+	        params.add(classNum);
+	    }
 
-            st.setInt(4, no);
+	    // 入学年度（STUDENTテーブル参照）
+	    if (entYear != null && !entYear.isEmpty()) {
+	        sql.append(" AND STUDENT_NO IN (");
+	        sql.append(" SELECT STUDENT_NO FROM STUDENT WHERE ENT_YEAR=?");
+	        sql.append(")");
+	        params.add(entYear);
+	    }
 
-            ResultSet rs = st.executeQuery();
- 
-            while (rs.next()) {
+	    try (PreparedStatement st = con.prepareStatement(sql.toString())) {
 
-                Test test = new Test();
+	        // パラメータセット
+	        for (int i = 0; i < params.size(); i++) {
+	            st.setObject(i + 1, params.get(i));
+	        }
 
-                test.setStudentNo(rs.getString("STUDENT_NO"));
+	        ResultSet rs = st.executeQuery();
 
-                test.setSchoolCd(rs.getString("SCHOOL_CD"));
+	        while (rs.next()) {
+	            Test test = new Test();
+	            test.setStudentNo(rs.getString("STUDENT_NO"));
+	            test.setSchoolCd(rs.getString("SCHOOL_CD"));
+	            test.setSubjectCd(rs.getString("SUBJECT_CD"));
+	            test.setNo(rs.getInt("NO"));
+	            test.setPoint(rs.getInt("POINT"));
+	            test.setClassNum(rs.getString("CLASS_NUM"));
+	            list.add(test);
+	        }
 
-                test.setSubjectCd(rs.getString("SUBJECT_CD"));
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    } finally {
+	        con.close();
+	    }
 
-                test.setNo(rs.getInt("NO"));
-
-                test.setPoint(rs.getInt("POINT"));
-
-                test.setClassNum(rs.getString("CLASS_NUM"));
-
-                list.add(test);
-
-            }
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-
-            throw e;
-
-        } finally {
-
-            con.close();
-
-        }
-
-        return list;
-
-    }
+	    return list;
+	}
  
     public boolean save(Test test) throws Exception {
 
