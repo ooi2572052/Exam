@@ -8,7 +8,7 @@
     <c:param name="content">
         <div class="row">
             
-            <%-- ① 左側：メニューエリア --%>
+            <%-- メニューエリア --%>
             <aside class="col-md-2 border-end">
                 <div class="py-3">
                     <ul class="list-unstyled">
