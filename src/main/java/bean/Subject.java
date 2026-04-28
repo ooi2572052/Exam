@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Subject implements Serializable {
 
     private String subjectCd;     
-    private String subjectName;
+    private String subjectName;   
     private String schoolCd;      
 
 
