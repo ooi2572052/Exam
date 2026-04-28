@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Subject implements Serializable {
 
-    private String subjectCd;     // 科目コード
-    private String subjectName;   // 科目名
-    private String schoolCd;      // 学校コード
+    private String subjectCd;     
+    private String subjectName;   
+    private String schoolCd;      
 
 
     public String getSubjectCd() {

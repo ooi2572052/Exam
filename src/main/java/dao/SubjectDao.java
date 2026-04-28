@@ -53,7 +53,6 @@ public class TestDao extends Dao {
         int count = 0;
 
         try {
-            // 既存データ確認
             Test old = get(test.getStudentNo(), test.getSubjectCd(), test.getSchoolCd());
 
             if (old == null) {
