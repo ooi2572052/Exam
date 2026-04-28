@@ -2,117 +2,30 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
-import bean.Test;
+import bean.Subject;
 
-public class TestDao extends Dao {
+public class SubjectDao extends Dao {
 
-    public Test get(String studentNo, String subjectCd, String schoolCd) throws Exception {
+    public boolean update(Subject subject) throws Exception {
 
-        Test test = null;
-
-        Connection connection = getConnection();
-        PreparedStatement statement = null;
-
-        try {
-            String sql = "SELECT * FROM test WHERE student_no = ? AND subject_cd = ? AND school_cd = ?";
-            statement = connection.prepareStatement(sql);
-
-            statement.setString(1, studentNo);
-            statement.setString(2, subjectCd);
-            statement.setString(3, schoolCd);
-
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                test = new Test();
-                test.setStudentNo(rs.getString("student_no"));
-                test.setSubjectCd(rs.getString("subject_cd"));
-                test.setSchoolCd(rs.getString("school_cd"));
-                test.setNo(rs.getInt("no"));
-                test.setPoint(rs.getInt("point"));
-                test.setClassNum(rs.getString("class_num"));
-            }
-
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
-        }
-
-        return test;
-    }
-
-  
-    public boolean save(Test test) throws Exception {
-
-        Connection connection = getConnection();
-        PreparedStatement statement = null;
+        Connection con = getConnection();
+        PreparedStatement st = null;
         int count = 0;
 
         try {
-            Test old = get(test.getStudentNo(), test.getSubjectCd(), test.getSchoolCd());
+            String sql = "UPDATE subject SET subject_name = ? WHERE subject_cd = ? AND school_cd = ?";
+            st = con.prepareStatement(sql);
 
-            if (old == null) {
-                // INSERT
-                String sql = "INSERT INTO test(student_no, subject_cd, school_cd, no, point, class_num) VALUES (?, ?, ?, ?, ?, ?)";
-                statement = connection.prepareStatement(sql);
+            st.setString(1, subject.getSubjectName());
+            st.setString(2, subject.getSubjectCd());
+            st.setString(3, subject.getSchoolCd());
 
-                statement.setString(1, test.getStudentNo());
-                statement.setString(2, test.getSubjectCd());
-                statement.setString(3, test.getSchoolCd());
-                statement.setInt(4, test.getNo());
-                statement.setInt(5, test.getPoint());
-                statement.setString(6, test.getClassNum());
+            count = st.executeUpdate();
 
-            } else {
-                // UPDATE
-                String sql = "UPDATE test SET no = ?, point = ?, class_num = ? WHERE student_no = ? AND subject_cd = ? AND school_cd = ?";
-                statement = connection.prepareStatement(sql);
-
-                statement.setInt(1, test.getNo());
-                statement.setInt(2, test.getPoint());
-                statement.setString(3, test.getClassNum());
-                statement.setString(4, test.getStudentNo());
-                statement.setString(5, test.getSubjectCd());
-                statement.setString(6, test.getSchoolCd());
-            }
-
-            count = statement.executeUpdate();
-
-        } catch (Exception e) {
-            throw e;
         } finally {
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
-        }
-
-        return count > 0;
-    }
-
-    public boolean delete(Test test) throws Exception {
-
-        Connection connection = getConnection();
-        PreparedStatement statement = null;
-        int count = 0;
-
-        try {
-            String sql = "DELETE FROM test WHERE student_no = ? AND subject_cd = ? AND school_cd = ?";
-            statement = connection.prepareStatement(sql);
-
-            statement.setString(1, test.getStudentNo());
-            statement.setString(2, test.getSubjectCd());
-            statement.setString(3, test.getSchoolCd());
-
-            count = statement.executeUpdate();
-
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
+            if (st != null) st.close();
+            if (con != null) con.close();
         }
 
         return count > 0;
