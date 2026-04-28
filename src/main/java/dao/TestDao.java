@@ -27,7 +27,7 @@ public class TestDao extends Dao {
 	    List<Object> params = new ArrayList<>();
 	    params.add(schoolCd);
 
-	    // 学生番号
+	    /// 学生番号
 	    if (studentNo != null && !studentNo.isEmpty()) {
 	        sql.append(" AND STUDENT_NO=?");
 	        params.add(studentNo);
