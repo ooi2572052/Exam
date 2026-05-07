@@ -17,7 +17,7 @@ public class SubjectUpdateAction extends Action {
             (Teacher) req.getSession().getAttribute("user");
 
         // パラメータ取得
-        String subjectCd = req.getParameter("subjectCd");
+        String subjectCd = req.getParameter("cd");
 
         // DAO
         SubjectDao dao = new SubjectDao();
