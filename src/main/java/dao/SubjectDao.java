@@ -10,7 +10,7 @@ import bean.Subject;
 
 public class SubjectDao extends Dao {
 
-    // 科目一覧取得（プルダウン用）
+    // 科目一覧取得 （プルダウン用）
     public List<Subject> findAll(String schoolCd) throws Exception {
 
         List<Subject> list = new ArrayList<>();

@@ -7,12 +7,12 @@ public class Test implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // フィールド
-    private String studentNo; // 学生番号
-    private String schoolCd;  // 学校コード
-    private String subjectCd; // 科目コード
-    private int no;           // 回数
-    private int point;        // 得点（定義書の修正案に基づきint型）
-    private String classNum;  // クラス番号
+    private String studentNo; //  学生番号
+    private String schoolCd;  //  学校コード
+    private String subjectCd; //  科目コード
+    private int no;           //  回数
+    private int point;        //  得点（定義書の修正案に基づきint型）
+    private String classNum;  //  クラス番号
 
     // デフォルトコンストラクタ
     public Test() {}
