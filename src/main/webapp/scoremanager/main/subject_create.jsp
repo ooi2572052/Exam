@@ -8,19 +8,6 @@
     <c:param name="content">
         <div class="row">
             
-            <%-- メニューエリア --%>
-            <aside class="col-md-2 border-end">
-                <div class="py-3">
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="Menu.action" class="text-decoration-none">メニュー</a></li>
-                        <li class="mb-2"><a href="StudentList.action" class="text-decoration-none">学生管理</a></li>
-                        <li class="mb-1 text-muted">成績管理</li>
-                        <li class="mb-2 ms-3"><a href="TestRegist.action" class="text-decoration-none">成績登録</a></li>
-                        <li class="mb-2 ms-3"><a href="TestList.action" class="text-decoration-none">成績参照</a></li>
-                        <li class="mb-2"><a href="SubjectList.action" class="text-decoration-none text-primary fw-bold">科目管理</a></li>
-                    </ul>
-                </div>
-            </aside>
 
             <%-- メインコンテンツエリア --%>
             <main class="col-md-10">
