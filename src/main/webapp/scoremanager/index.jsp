@@ -12,6 +12,6 @@ location.href="/ScoreManager/scoremanager/Login.action";
 </script>
 </head>
 <body>
-
+<h1吉良吉良りんちょ</h1>
 </body>
 </html>
