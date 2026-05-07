@@ -16,7 +16,7 @@ public class SubjectUpdateAction extends Action {
         Teacher teacher =
             (Teacher) req.getSession().getAttribute("user");
 
-        // パラメータ
+        // パラメータ取得
         String subjectCd = req.getParameter("subjectCd");
 
         // DAO
@@ -24,13 +24,18 @@ public class SubjectUpdateAction extends Action {
 
         // 科目取得
         Subject subject =
-            dao.get(subjectCd, teacher.getSchool().getSchoolCd());
+            dao.get(subjectCd,
+                    teacher.getSchool().getSchoolCd());
 
-        // JSPへ渡す
+        // リクエストへセット
         req.setAttribute("subject", subject);
 
+        // base.jspへ渡す
+        req.setAttribute("title", "科目情報変更");
+        req.setAttribute("content", "/scoremanager/main/subject_update.jsp");
+
         // 画面表示
-        req.getRequestDispatcher("subject_update.jsp")
+        req.getRequestDispatcher("/common/base.jsp")
            .forward(req, res);
     }
 }
