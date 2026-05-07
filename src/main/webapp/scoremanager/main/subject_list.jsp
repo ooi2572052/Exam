@@ -1,21 +1,21 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+
 <c:import url="/common/base.jsp">
+
     <c:param name="title">
         得点管理システム
     </c:param>
-
+    <c:param name="scripts"></c:param>
     <c:param name="content">
         <section class="me-4">
-            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">科目管理</h2>
-            
+            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
+                科目管理
+            </h2>
             <div class="my-2 text-end px-4">
                 <a href="SubjectCreate.action">新規登録</a>
             </div>
-
             <c:choose>
-                <%-- subjectsが存在し、かつ1件以上ある場合 --%>
                 <c:when test="${not empty subjects && subjects.size() > 0}">
                     <table class="table table-hover">
                         <thead>
@@ -29,25 +29,31 @@
                         <tbody>
                             <c:forEach var="subject" items="${subjects}">
                                 <tr>
-                                    <%-- 現在のSubjectDaoがTestクラスを返している場合、
-                                         プロパティ名はTest.javaのフィールド名（subjectCd）に合わせます --%>
                                     <td>${subject.subjectCd}</td>
+
                                     <td>${subject.subjectName}</td>
+
                                     <td class="text-center">
-                                        <a href="SubjectUpdate.action?cd=${subject.subjectCd}">更新</a>
+                                        <a href="SubjectUpdate.action?cd=${subject.subjectCd}">
+                                            更新
+                                        </a>
                                     </td>
+
                                     <td class="text-center">
-                                        <a href="SubjectDelete.action?cd=${subject.subjectCd}">削除</a>
+                                        <a href="SubjectDelete.action?cd=${subject.subjectCd}">
+                                            削除
+                                        </a>
                                     </td>
+
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </c:when>
-                
-                <%-- データがない場合 --%>
                 <c:otherwise>
-                    <div class="mx-4 mb-3">科目情報が存在しませんでした。</div>
+                    <div class="mx-4 mb-3">
+                        科目情報が存在しませんでした。
+                    </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -55,64 +61,6 @@
                                 <th>科目名</th>
                                 <th></th>
                                 <th></th>
-=======
-<%-- 科目一覧JSP --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<c:import url="/common/base.jsp" >
-    <c:param name="title">
-        得点管理システム
-    </c:param>
-
-    <c:param name="scripts"></c:param>
-
-    <c:param name="content">
-        <section class="me-4">
-            <h2 class="h3 mb-3 fw-norma bg-secondary bg-opacity-10 py-2 px-4">科目管理</h2>
-            
-            <%-- 新規登録ボタン --%>
-            <div class="my-2 text-end px-4">
-                <a href="SubjectCreate.action">新規登録</a>
-            </div>
-
-            <%-- 科目情報の表示判定 --%>
-            <c:choose>
-                <%-- 科目が1件以上ある場合 --%>
-                <c:when test="${subjects.size() > 0}">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>科目コード</th>
-                                <th>科目名</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="subject" items="${subjects}">
-                                <tr>
-                                    <td>${subject.cd}</td>
-                                    <td>${subject.name}</td>
-                                    <td class="text-center">
-                                        <a href="SubjectUpdate.action?cd=${subject.cd}">更新</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="SubjectDelete.action?cd=${subject.cd}">削除</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:when>
-                
-                    <div class="mx-4">科目情報が存在しませんでした。</div>
-                    <%-- 画像のように空のテーブルのヘッダーだけ出したい場合は以下を追加 --%>
-                    <table class="table table-hover mt-3">
-                        <thead>
-                            <tr>
-                                <th>科目コード</th>
-                                <th>科目名</th>
->>>>>>> branch 'master' of https://github.com/ooi2572052/Exam.git
                             </tr>
                         </thead>
                     </table>
