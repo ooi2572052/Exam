@@ -1,4 +1,3 @@
-
 package dao;
 
 import java.sql.Connection;
@@ -27,7 +26,6 @@ public class SubjectDao extends Dao {
                 list.add(s);
             }
         }
-        con.close();
         return list;
     }
 
@@ -47,7 +45,6 @@ public class SubjectDao extends Dao {
                 subject.setSchoolCd(rs.getString("SCHOOL_CD"));
             }
         }
-        con.close();
         return subject;
     }
 
@@ -62,7 +59,6 @@ public class SubjectDao extends Dao {
             st.setString(3, subject.getSchoolCd());
             count = st.executeUpdate();
         }
-        con.close();
         return count > 0;
     }
 
@@ -77,7 +73,6 @@ public class SubjectDao extends Dao {
             st.setString(3, subject.getSchoolCd());
             count = st.executeUpdate();
         }
-        con.close();
         return count > 0;
     }
 
@@ -86,12 +81,11 @@ public class SubjectDao extends Dao {
         Connection con = getConnection();
         String sql = "DELETE FROM SUBJECT WHERE SUBJECT_CD=? AND SCHOOL_CD=?";
         int count = 0;
-        try (PreparedStatement st = con.prepareStatement(sql)) {
+        try (PreparedStatement st = con.prepareStatement("DELETE FROM SUBJECT WHERE SUBJECT_CD=? AND SCHOOL_CD=?")) {
             st.setString(1, subject.getSubjectCd());
             st.setString(2, subject.getSchoolCd());
             count = st.executeUpdate();
         }
-        con.close();
         return count > 0;
     }
 }
