@@ -45,6 +45,10 @@ ${param.scripts}
  
 	</div>
 </body>
+<<<<<<< HEAD
 </html>
  
  
+=======
+</html>
+>>>>>>> branch 'master' of https://github.com/ooi2572052/Exam.git

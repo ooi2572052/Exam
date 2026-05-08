@@ -27,15 +27,15 @@ public class SubjectUpdateAction extends Action {
             dao.get(subjectCd,
                     teacher.getSchool().getSchoolCd());
 
-        // リクエストへセット
+        // リクエストへセット（これはOK）
         req.setAttribute("subject", subject);
 
-        // base.jspへ渡す
-        req.setAttribute("title", "科目情報変更");
-        req.setAttribute("content", "/scoremanager/main/subject_update.jsp");
+        // ★ base.jspに渡すのは「URLパラメータ」
+        String content = "/scoremanager/main/subject_update.jsp";
+        String title = "科目情報変更";
 
-        // 画面表示
-        req.getRequestDispatcher("/common/base.jsp")
-           .forward(req, res);
+        // 画面表示（paramで渡す）
+        req.getRequestDispatcher("/scoremanager/main/subject_update.jsp")
+        .forward(req, res);
     }
 }

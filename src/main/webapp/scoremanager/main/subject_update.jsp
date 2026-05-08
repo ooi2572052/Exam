@@ -1,33 +1,56 @@
-<h2>科目情報変更</h2>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<form action="SubjectUpdateExecute.action" method="post">
+<c:import url="/common/base.jsp">
 
-    <p>科目コード</p>
+    <c:param name="title">科目情報変更</c:param>
 
-    ${subject.subjectCd}
+    <c:param name="content">
 
-    <input type="hidden"
-           name="subjectCd"
-           value="${subject.subjectCd}">
+        <!-- タイトル -->
+        <h2 class="h5 mb-4 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
+            科目情報変更
+        </h2>
 
-    <p>科目名</p>
+        <!-- フォーム -->
+        <form action="SubjectUpdateExecute.action" method="post" class="mx-3">
 
-    <input type="text"
-           name="subjectName"
-           value="${subject.subjectName}">
+            <!-- 科目コード -->
+            <div class="mb-3">
+                <label class="form-label">科目コード</label>
+                <input type="text" name="subjectCd"
+                       class="form-control"
+                       value="${subject.subjectCd}" readonly>
+            </div>
 
-    <br>z
+            <!-- 科目名 -->
+            <div class="mb-3">
+                <label class="form-label">科目名</label>
+                <input type="text" name="subjectName"
+                       class="form-control"
+                       value="${subject.subjectName}">
+            </div>
 
-    <font color="red">
-        ${errors.subjectName}
-    </font>
+            <!-- 学校コード（必要なら） -->
+            <input type="hidden" name="schoolCd" value="${subject.schoolCd}">
 
-    <br><br>
+            <!-- 変更ボタン -->
+			<button type="submit" class="btn btn-primary">
+			    変更
+			</button>
 
-    <input type="submit" value="変更">
+    		<!-- 戻るリンク -->
+		    <div class="mt-3">
+		        <a href="SubjectList.action"
+		           class="text-primary text-decoration-underline">
+		            戻る
+		        </a>
+		    </div>
+            
 
-</form>
+        </form>
 
-<br>
+    </c:param>
 
-<a href="SubjectList.action">戻る</a>
+</c:import>
