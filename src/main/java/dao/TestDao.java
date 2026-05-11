@@ -73,7 +73,7 @@ public class TestDao extends Dao {
         return list;
     }
 
-    // 回数プルダウン用
+    //  回数プルダウン用
     public List<Integer> getNumSet() throws Exception {
         List<Integer> list = new ArrayList<>();
         String sql = "SELECT DISTINCT NO FROM TEST ORDER BY NO";
