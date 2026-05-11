@@ -334,4 +334,37 @@ public class StudentDao extends Dao {
 			return false;
 		}
 	}
+	// 入学年度リスト
+	public List<String> getEntYearSet() throws Exception {
+	    List<String> list = new ArrayList<>();
+
+	    String sql = "SELECT DISTINCT ent_year FROM student ORDER BY ent_year";
+
+	    try (Connection con = getConnection();
+	         PreparedStatement st = con.prepareStatement(sql);
+	         ResultSet rs = st.executeQuery()) {
+
+	        while (rs.next()) {
+	            list.add(rs.getString("ent_year"));
+	        }
+	    }
+	    return list;
+	}
+
+	// クラス番号リスト
+	public List<String> getClassNumSet() throws Exception {
+	    List<String> list = new ArrayList<>();
+
+	    String sql = "SELECT DISTINCT class_num FROM student ORDER BY class_num";
+
+	    try (Connection con = getConnection();
+	         PreparedStatement st = con.prepareStatement(sql);
+	         ResultSet rs = st.executeQuery()) {
+
+	        while (rs.next()) {
+	            list.add(rs.getString("class_num"));
+	        }
+	    }
+	    return list;
+	}
 }

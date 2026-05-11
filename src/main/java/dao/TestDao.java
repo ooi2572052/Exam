@@ -3,7 +3,6 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,129 +10,82 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-    /**
-     * 条件に合致する成績一覧を取得する
-     */
-    public List<Test> filter(String entYear, String classNum, String subjectCd, String studentNo, String schoolCd) throws Exception {
+
+    public List<Test> filter(String entYear, String classNum, String subjectCd, Integer no, String studentNo, String schoolCd) throws Exception {
+
         List<Test> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT * FROM TEST WHERE SCHOOL_CD=?");
+        sql.append("SELECT T.*, S.CLASS_NUM ");
+        sql.append("FROM TEST T ");
+        sql.append("JOIN STUDENT S ON T.STUDENT_NO = S.STUDENT_NO ");
+        sql.append("WHERE T.SCHOOL_CD=?");
 
         List<Object> params = new ArrayList<>();
         params.add(schoolCd);
 
-        // 学生番号の絞り込み
         if (studentNo != null && !studentNo.isEmpty()) {
-            sql.append(" AND STUDENT_NO=?");
+            sql.append(" AND T.STUDENT_NO=?");
             params.add(studentNo);
         }
 
-        // 科目の絞り込み
-        if (subjectCd != null && !subjectCd.isEmpty()) {
-            sql.append(" AND SUBJECT_CD=?");
+        if (subjectCd != null && !subjectCd.equals("0")) {
+            sql.append(" AND T.SUBJECT_CD=?");
             params.add(subjectCd);
         }
 
-        // クラスの絞り込み
-        if (classNum != null && !classNum.isEmpty()) {
-            sql.append(" AND CLASS_NUM=?");
+        if (classNum != null && !classNum.equals("0")) {
+            sql.append(" AND S.CLASS_NUM=?");
             params.add(classNum);
         }
 
-        // 入学年度（STUDENTテーブルをサブクエリで参照）
-        if (entYear != null && !entYear.isEmpty()) {
-            sql.append(" AND STUDENT_NO IN (");
-            sql.append(" SELECT STUDENT_NO FROM STUDENT WHERE ENT_YEAR=?");
-            sql.append(")");
+        if (entYear != null && !entYear.equals("0")) {
+            sql.append(" AND S.ENT_YEAR=?");
             params.add(entYear);
         }
 
-        // Connectionをtryのカッコ内に入れることで自動クローズを確実にする
-        try (Connection con = getConnection(); 
+        if (no != null && no != 0) {
+            sql.append(" AND T.NO=?");
+            params.add(no);
+        }
+
+        try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql.toString())) {
 
-            // パラメータのセット
             for (int i = 0; i < params.size(); i++) {
                 st.setObject(i + 1, params.get(i));
             }
 
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    Test test = new Test();
-                    test.setStudentNo(rs.getString("STUDENT_NO"));
-                    test.setSchoolCd(rs.getString("SCHOOL_CD"));
-                    test.setSubjectCd(rs.getString("SUBJECT_CD"));
-                    test.setNo(rs.getInt("NO"));
-                    test.setPoint(rs.getInt("POINT"));
-                    test.setClassNum(rs.getString("CLASS_NUM"));
-                    list.add(test);
+                    Test t = new Test();
+                    t.setStudentNo(rs.getString("STUDENT_NO"));
+                    t.setSchoolCd(rs.getString("SCHOOL_CD"));
+                    t.setSubjectCd(rs.getString("SUBJECT_CD"));
+                    t.setNo(rs.getInt("NO"));
+                    t.setPoint(rs.getInt("POINT"));
+                    t.setClassNum(rs.getString("CLASS_NUM"));
+                    list.add(t);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
         }
 
         return list;
     }
 
-    /**
-     * 成績情報を登録する
-     */
-    public boolean save(Test test) throws Exception {
-        String sql = "INSERT INTO TEST (STUDENT_NO, SCHOOL_CD, SUBJECT_CD, NO, POINT, CLASS_NUM) VALUES (?, ?, ?, ?, ?, ?)";
-        int row = 0;
+    // 回数プルダウン用
+    public List<Integer> getNumSet() throws Exception {
+        List<Integer> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT NO FROM TEST ORDER BY NO";
 
-        try (Connection con = getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql)) {
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
 
-            st.setString(1, test.getStudentNo());
-            st.setString(2, test.getSchoolCd());
-            st.setString(3, test.getSubjectCd());
-            st.setInt(4, test.getNo());
-            st.setInt(5, test.getPoint());
-            st.setString(6, test.getClassNum());
-
-            row = st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-        return row > 0;
-    }
-
-    /**
-     * 特定の成績情報を1件取得する
-     */
-    public Test get(String studentNo, String subjectCd, String schoolCd) throws Exception {
-        String sql = "SELECT * FROM TEST WHERE STUDENT_NO=? AND SUBJECT_CD=? AND SCHOOL_CD=?";
-        Test test = null;
-
-        try (Connection con = getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql)) {
-
-            st.setString(1, studentNo);
-            st.setString(2, subjectCd);
-            st.setString(3, schoolCd);
-
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    test = new Test();
-                    test.setStudentNo(rs.getString("STUDENT_NO"));
-                    test.setSchoolCd(rs.getString("SCHOOL_CD"));
-                    test.setSubjectCd(rs.getString("SUBJECT_CD"));
-                    test.setNo(rs.getInt("NO"));
-                    test.setPoint(rs.getInt("POINT"));
-                    test.setClassNum(rs.getString("CLASS_NUM"));
-                }
+            while (rs.next()) {
+                list.add(rs.getInt("NO"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
         }
-
-        return test;
+        return list;
     }
 }
