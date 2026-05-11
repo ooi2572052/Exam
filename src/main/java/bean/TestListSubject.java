@@ -3,7 +3,6 @@ package bean;
 /**
  * クラス別成績一覧表示用Bean
  */
-
 public class TestListSubject {
 
     /** 入学年度 */

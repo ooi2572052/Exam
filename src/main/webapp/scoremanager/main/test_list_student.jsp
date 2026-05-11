@@ -4,6 +4,7 @@
 <c:set var="title">
     学生別成績一覧
 </c:set>
+
 <c:set var="content">
 
 <div class="container mt-3">
