@@ -5,6 +5,7 @@ package bean;
  */
 public class TestListSubject {
 
+	
     /** 入学年度 */
     private int entYear;
 

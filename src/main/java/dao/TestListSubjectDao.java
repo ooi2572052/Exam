@@ -9,7 +9,6 @@ import java.util.List;
 import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
-
     private String baseSql =
 
         "SELECT " +
