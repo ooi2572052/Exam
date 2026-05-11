@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
-public class TestRegistExecuteAciton extends Action {
+public class TestRegistExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
         Teacher teacher = (Teacher) req.getSession().getAttribute("user");
