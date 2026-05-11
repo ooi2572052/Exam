@@ -97,6 +97,6 @@ public class TestRegistAction extends Action {
         req.setAttribute("num_set", numList);
 
         // JSPへフォワード
-        req.getRequestDispatcher("base.jsp?content=/scoremanager/main/test_regist.jsp").forward(req, res);
+        req.getRequestDispatcher("/common/base.jsp?content=/scoremanager/main/test_regist.jsp").forward(req, res);
     }
 }
