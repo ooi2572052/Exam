@@ -18,8 +18,11 @@ public class TestListStudentDao extends Dao {
         "st.STUDENT_NAME AS STUDENT_NAME, " +
 
         "sub.SUBJECT_NAME AS SUBJECT_NAME, " +
+        
+        "sub.SUBJECT_CD AS SUBJECT_CD, " +
+        
 
-        "t.NO AS TEST_NO, " +
+        "t.NO AS TEST_NO, " +	
         "t.POINT " +
 
         "FROM TEST t " +
@@ -72,6 +75,9 @@ public class TestListStudentDao extends Dao {
 
             bean.setPoint(
                 rs.getInt("POINT"));
+            
+            bean.setSubjectCd(
+            	    rs.getString("SUBJECT_CD"));
 
             list.add(bean);
         }

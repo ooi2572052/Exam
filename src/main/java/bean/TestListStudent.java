@@ -4,6 +4,8 @@ package bean;
  * 学生一覧表示用Bean
  */
 public class TestListStudent {
+	// 科目コード
+	private String subjectCd;
 	
 	// 科目名
 	private String subjectName;
@@ -33,6 +35,14 @@ public class TestListStudent {
     private School school;
 
     // --- getter / setter ---
+
+    public String getSubjectCd() {
+        return subjectCd;
+    }
+
+    public void setSubjectCd(String subjectCd) {
+        this.subjectCd = subjectCd;
+    }
     
     public String getSubjectName() {
         return subjectName;

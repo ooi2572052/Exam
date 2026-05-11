@@ -65,7 +65,7 @@ extends Action {
 
         // JSPへ遷移
         request.getRequestDispatcher(
-            "test_list_student.jsp")
+            "test_list.jsp")
             .forward(request, response);
     }
 }
