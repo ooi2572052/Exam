@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-
+ 
 <c:import url="/common/base.jsp">
     <c:param name="title">成績管理</c:param>
     <c:param name="content">
         <section class="me-4">
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
-
+ 
             <%-- 検索条件指定エリア --%>
             <form action="TestRegist.action" method="get">
                 <div class="row border-bottom pb-4 mb-4">
@@ -53,13 +53,13 @@
                     </div>
                 </div>
             </form>
-
+ 
             <c:if test="${not empty students}">
                 <div class="mb-3 fs-5 fw-bold text-secondary">科目：${subject_name}（${num}回）</div>
                 <form action="TestRegistExecute.action" method="post">
                     <input type="hidden" name="subject_cd" value="${subject_cd}">
                     <input type="hidden" name="num" value="${num}">
-
+ 
                     <table class="table table-hover mt-3">
                         <thead>
                             <tr class="text-secondary">
@@ -69,10 +69,14 @@
                         <tbody>
                             <c:forEach var="student" items="${students}">
                                 <tr>
-                                    <td>${student.entYear}</td>
-                                    <td>${student.classNum}</td>
-                                    <td>${student.studentNo}</td>
-                                    <td>${student.studentName}</td>
+                                
+                                <c:set var="yearKey" value="year_${student.studentNo}" />
+								<c:set var="nameKey" value="name_${student.studentNo}" />
+
+									<td>${requestScope[yearKey]}</td>
+									<td>${student.classNum}</td>
+									<td>${student.studentNo}</td>
+									<td>${requestScope[nameKey]}</td>
                                     <td>
                                         <input type="number" name="points" value="${student.point}" class="form-control" min="0" max="100" style="max-width: 100px;">
                                         <input type="hidden" name="student_nos" value="${student.studentNo}">
@@ -92,3 +96,4 @@
         </section>
     </c:param>
 </c:import>
+ 
