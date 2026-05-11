@@ -65,7 +65,7 @@ public class TestDao extends Dao {
         return list;
     }
 
-    // --- 既存の getNumSet メソッド (内容を保持) ---
+
     public List<Integer> getNumSet() throws Exception {
         List<Integer> list = new ArrayList<>();
         String sql = "SELECT DISTINCT NO FROM TEST ORDER BY NO";
