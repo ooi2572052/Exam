@@ -53,6 +53,13 @@
                     </div>
                 </div>
             </form>
+            <c:if test="${not empty errors}">
+			    <div class="alert alert-danger">
+			        <c:forEach var="e" items="${errors}">
+			            <div>${e}</div>
+			        </c:forEach>
+			    </div>
+			</c:if>
  
             <c:if test="${not empty students}">
                 <div class="mb-3 fs-5 fw-bold text-secondary">科目：${subject_name}（${num}回）</div>
@@ -78,16 +85,23 @@
 									<td>${student.studentNo}</td>
 									<td>${requestScope[nameKey]}</td>
                                     <td>
-                                        <input type="number" name="points" value="${student.point}" class="form-control" min="0" max="100" style="max-width: 100px;">
+                                        <input type="number" name="points" value="${student.point >= 0 ? student.point : ''}" class="form-control" min="0" max="100" style="max-width: 100px;">
                                         <input type="hidden" name="student_nos" value="${student.studentNo}">
                                         <%-- ★追加：保存時に必要なクラス情報を隠しパラメータで送る --%>
                                         <input type="hidden" name="class_nums" value="${student.classNum}">
-                                        <c:if test="${not empty errors[student.studentNo]}">
+                                        <c:if test="${errors.contains(student.studentNo)}">
                                             <div class="text-danger small">0〜100の範囲で入力してください</div>
                                         </c:if>
                                     </td>
+                                    <td>
+						                <a href="TestDelete.action?student_no=${student.studentNo}&subject_cd=${subject_cd}&num=${num}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}" 
+						                   class="btn btn-outline-danger btn-sm" 
+						                   onclick="return confirm('この成績を削除しますか？');">
+						                   削除
+						                </a>
+						            </td>
                                 </tr>
-                            </c:forEach>
+                            </c:forEach>	
                         </tbody>
                     </table>
                     <div class="mt-4"><button type="submit" class="btn btn-secondary">登録して終了</button></div>

@@ -19,6 +19,8 @@ public class TestUpdateAction extends Action {
         // パラメータ取得
         String studentNo = req.getParameter("studentNo");
         String subjectCd = req.getParameter("subjectCd");
+        String noStr = req.getParameter("no");
+        int no = Integer.parseInt(noStr);
 
         // 修正ポイント👇
         String schoolCd = teacher.getSchool().getSchoolCd();
@@ -27,7 +29,7 @@ public class TestUpdateAction extends Action {
         TestDao dao = new TestDao();
 
         // 成績取得
-        Test test = dao.get(studentNo, subjectCd, schoolCd);
+        Test test = dao.get(studentNo, subjectCd, schoolCd, no);
 
         // JSPへ渡す
         req.setAttribute("test", test);

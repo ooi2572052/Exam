@@ -78,18 +78,21 @@ public class TestRegistAction extends Action {
                     classNum,
                     true
             );
+            if (studentList.isEmpty()) {
+                errors.add("該当する学生が存在しません");
+            }
 
             List<Test> list = new ArrayList<>();
 
             for (Student s : studentList) {
 
                 // ★② 成績取得（なければ空データ）
-                Test t = testDao.get(s.getStudentNo(), subjectCd, schoolCd);
+                Test t = testDao.get(s.getStudentNo(), subjectCd, schoolCd, no);
 
                 if (t == null) {
                     t = new Test();
                     t.setStudentNo(s.getStudentNo());
-                    t.setPoint(0);
+                    t.setPoint(-1);
                 }
 
                 t.setClassNum(s.getClassNum());

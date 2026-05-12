@@ -106,8 +106,14 @@ public class TestDao extends Dao {
     }
 
     // ★追加: 特定の成績を1件取得する get メソッド
-    public Test get(String studentNo, String subjectCd, String schoolCd) throws Exception {
-        String sql = "SELECT * FROM TEST WHERE STUDENT_NO=? AND SUBJECT_CD=? AND SCHOOL_CD=?";
+    public Test get(String studentNo, String subjectCd, String schoolCd, int no) throws Exception {
+    	String sql =
+    	        "SELECT * FROM TEST " +
+    	        "WHERE STUDENT_NO=? " +
+    	        "AND SUBJECT_CD=? " +
+    	        "AND SCHOOL_CD=? " +
+    	        "AND NO=?";
+
         Test test = null;
 
         try (Connection con = getConnection(); 
@@ -115,6 +121,7 @@ public class TestDao extends Dao {
             st.setString(1, studentNo);
             st.setString(2, subjectCd);
             st.setString(3, schoolCd);
+            st.setInt(4, no);
 
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
@@ -129,5 +136,26 @@ public class TestDao extends Dao {
             }
         }
         return test;
+    }
+    public boolean delete(Test test) throws Exception {
+        String sql = "DELETE FROM TEST WHERE STUDENT_NO=? AND SUBJECT_CD=? AND SCHOOL_CD=? AND NO=?";
+        
+        
+        int count = 0;
+
+        try (Connection con = getConnection(); 
+             PreparedStatement st = con.prepareStatement(sql)) {
+            st.setString(1, test.getStudentNo());
+            st.setString(2, test.getSubjectCd());
+            st.setString(3, test.getSchoolCd());
+            st.setInt(4, test.getNo());
+            
+            count = st.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return count > 0;
     }
 }
