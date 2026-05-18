@@ -52,10 +52,15 @@ public class TestRegistAction extends Action {
         String subjectCd = req.getParameter("f3");
         String numStr = req.getParameter("f4");
 
-        List<String> errors = new ArrayList<>();
+        // ★修正：フォワード元(TestRegistExecuteAction)のerrorsを引き継ぐ
+        @SuppressWarnings("unchecked")
+        List<String> errors = (List<String>) req.getAttribute("errors");
+        if (errors == null) {
+            errors = new ArrayList<>();
+        }
 
-        // ▼ 未入力チェック
-        if (req.getParameter("f1") != null) {
+        // ▼ 未入力チェック（フォワード元からのerrorsがない場合のみ）
+        if (errors.isEmpty() && req.getParameter("f1") != null) {
             if ("0".equals(entYearStr) || "0".equals(classNum)
                     || "0".equals(subjectCd) || "0".equals(numStr)) {
                 errors.add("入学年度・クラス・科目・回数を選択してください");
@@ -71,7 +76,6 @@ public class TestRegistAction extends Action {
             StudentDao studentDao = new StudentDao();
             TestDao testDao = new TestDao();
 
-            // ★① 学生一覧取得（ここが重要）
             List<Student> studentList = studentDao.filter(
                     teacher.getSchool(),
                     entYear,
@@ -86,7 +90,6 @@ public class TestRegistAction extends Action {
 
             for (Student s : studentList) {
 
-                // ★② 成績取得（なければ空データ）
                 Test t = testDao.get(s.getStudentNo(), subjectCd, schoolCd, no);
 
                 if (t == null) {
@@ -98,7 +101,6 @@ public class TestRegistAction extends Action {
                 t.setClassNum(s.getClassNum());
                 list.add(t);
 
-                // ★③ 表示用
                 req.setAttribute("name_" + s.getStudentNo(), s.getStudentName());
                 req.setAttribute("year_" + s.getStudentNo(), s.getEntYear());
             }
