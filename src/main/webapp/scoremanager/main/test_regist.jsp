@@ -53,13 +53,22 @@
                     </div>
                 </div>
             </form>
+
+            <%-- ★修正：メッセージ表示（未検索時） --%>
+            <c:if test="${empty students and empty errors}">
+                <div class="alert alert-info">
+                    入学年度とクラスと科目と回数を選択してください
+                </div>
+            </c:if>
+
+            <%-- エラー表示 --%>
             <c:if test="${not empty errors}">
-			    <div class="alert alert-danger">
-			        <c:forEach var="e" items="${errors}">
-			            <div>${e}</div>
-			        </c:forEach>
-			    </div>
-			</c:if>
+                <div class="alert alert-danger">
+                    <c:forEach var="e" items="${errors}">
+                        <div>${e}</div>
+                    </c:forEach>
+                </div>
+            </c:if>
  
             <c:if test="${not empty students}">
                 <div class="mb-3 fs-5 fw-bold text-secondary">科目：${subject_name}（${num}回）</div>
@@ -76,14 +85,12 @@
                         <tbody>
                             <c:forEach var="student" items="${students}">
                                 <tr>
-                                
-                                <c:set var="yearKey" value="year_${student.studentNo}" />
-								<c:set var="nameKey" value="name_${student.studentNo}" />
-
-									<td>${requestScope[yearKey]}</td>
-									<td>${student.classNum}</td>
-									<td>${student.studentNo}</td>
-									<td>${requestScope[nameKey]}</td>
+                                    <c:set var="yearKey" value="year_${student.studentNo}" />
+                                    <c:set var="nameKey" value="name_${student.studentNo}" />
+                                    <td>${requestScope[yearKey]}</td>
+                                    <td>${student.classNum}</td>
+                                    <td>${student.studentNo}</td>
+                                    <td>${requestScope[nameKey]}</td>
                                     <td>
                                         <input type="number" name="points" value="${student.point >= 0 ? student.point : ''}" class="form-control" min="0" max="100" style="max-width: 100px;">
                                         <input type="hidden" name="student_nos" value="${student.studentNo}">
@@ -94,12 +101,12 @@
                                         </c:if>
                                     </td>
                                     <td>
-						                <a href="TestDelete.action?student_no=${student.studentNo}&subject_cd=${subject_cd}&num=${num}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}" 
-						                   class="btn btn-outline-danger btn-sm" 
-						                   onclick="return confirm('この成績を削除しますか？');">
-						                   削除
-						                </a>
-						            </td>
+                                        <a href="TestDelete.action?student_no=${student.studentNo}&subject_cd=${subject_cd}&num=${num}&f1=${f1}&f2=${f2}&f3=${f3}&f4=${f4}" 
+                                           class="btn btn-outline-danger btn-sm" 
+                                           onclick="return confirm('この成績を削除しますか？');">
+                                           削除
+                                        </a>
+                                    </td>
                                 </tr>
                             </c:forEach>	
                         </tbody>
@@ -110,4 +117,3 @@
         </section>
     </c:param>
 </c:import>
- 
