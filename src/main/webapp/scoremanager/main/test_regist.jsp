@@ -54,7 +54,7 @@
                 </div>
             </form>
 
-            <%-- ★修正：メッセージ表示（未検索時） --%>
+            <%-- メッセージ表示（未検索時） --%>
             <c:if test="${empty students and empty errors}">
                 <div class="alert alert-info">
                     入学年度とクラスと科目と回数を選択してください
@@ -92,9 +92,14 @@
                                     <td>${student.studentNo}</td>
                                     <td>${requestScope[nameKey]}</td>
                                     <td>
-                                        <input type="number" name="points" value="${student.point >= 0 ? student.point : ''}" class="form-control" min="0" max="100" style="max-width: 100px;">
+                                        <%-- ★修正：oninvalid と oninput を追加 --%>
+                                        <input type="number" name="points"
+                                               value="${student.point >= 0 ? student.point : ''}"
+                                               class="form-control" min="0" max="100"
+                                               style="max-width: 100px;"
+                                               oninvalid="this.setCustomValidity('0〜100の範囲で入力してください')"
+                                               oninput="this.setCustomValidity('')">
                                         <input type="hidden" name="student_nos" value="${student.studentNo}">
-                                        <%-- ★追加：保存時に必要なクラス情報を隠しパラメータで送る --%>
                                         <input type="hidden" name="class_nums" value="${student.classNum}">
                                         <c:if test="${errors.contains(student.studentNo)}">
                                             <div class="text-danger small">0〜100の範囲で入力してください</div>
