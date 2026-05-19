@@ -12,7 +12,7 @@
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
 
             <%-- 科目検索 --%>
-            <form action="${pageContext.request.contextPath}/scoremanager/main/TestRegist.action" method="get">
+            <form action="${pageContext.request.contextPath}/scoremanager/main/TestListSubjectExecute.action" method="get">
                 <div class="row border-bottom pb-4 mb-4 align-items-end flex-nowrap">
                     <div class="col-auto pb-2 me-2">
                         <span class="fw-bold" style="white-space: nowrap;">科目検索</span>
